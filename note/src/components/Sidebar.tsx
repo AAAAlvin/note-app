@@ -1,4 +1,4 @@
-import Calendar from './calendar/Calendar';
+import Calendar from './Calendar';
 
 export default function Sidebar() {
   return (

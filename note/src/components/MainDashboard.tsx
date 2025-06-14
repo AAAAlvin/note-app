@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import NoteSection from './NoteSection';
+import NoteSection from '../components/NoteSection';
 
 const allNotes = [
   {
