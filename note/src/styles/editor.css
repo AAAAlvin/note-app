@@ -1,0 +1,682 @@
+.tiptap-content .ProseMirror {
+  outline: none;
+  min-height: 150px;
+}
+
+.tiptap-content .ProseMirror h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  color: #333;
+}
+
+.tiptap-content .ProseMirror h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 0.83em;
+  margin-bottom: 0.83em;
+  color: #333;
+}
+
+.tiptap-content .ProseMirror h3 {
+  font-size: 1.17em;
+  font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  color: #333;
+}
+
+.tiptap-content .ProseMirror p {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.tiptap-content .ProseMirror ul,
+.tiptap-content .ProseMirror ol {
+  padding-left: 1.2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.tiptap-content .ProseMirror ul {
+  list-style-type: disc;
+}
+
+.tiptap-content .ProseMirror ol {
+  list-style-type: decimal;
+}
+
+.tiptap-content .ProseMirror blockquote {
+  border-left: 3px solid #ccc;
+  padding-left: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  font-style: italic;
+}
+
+.tiptap-content .ProseMirror pre {
+  background-color: #f1f1f1;
+  border-radius: 0.3em;
+  padding: 0.5em;
+  white-space: pre-wrap;
+  font-family: monospace;
+}
+
+.tiptap-content .ProseMirror hr {
+  border: none;
+  border-top: 2px solid #ccc;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.tiptap-content .ProseMirror strong {
+  font-weight: bold;
+}
+
+.tiptap-content .ProseMirror em {
+  font-style: italic;
+}
+
+.tiptap-content .ProseMirror s {
+  text-decoration: line-through;
+}
+
+/* 표 스타일 */
+.tiptap-content .ProseMirror table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 1em 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.tiptap-content .ProseMirror table td,
+.tiptap-content .ProseMirror table th {
+  border: 2px solid #ced4da;
+  padding: 0.5em;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* 테두리 호버 효과 */
+.tiptap-content .ProseMirror table td:hover::after,
+.tiptap-content .ProseMirror table th:hover::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border: 2px solid #4299e1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 셀 오른쪽 테두리 호버 시 커서 변경 */
+.tiptap-content .ProseMirror table td:hover::before,
+.tiptap-content .ProseMirror table th:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -4px;
+  bottom: 0;
+  width: 8px;
+  cursor: col-resize;
+  z-index: 2;
+}
+
+/* 셀 아래쪽 테두리 호버 시 커서 변경 */
+.tiptap-content .ProseMirror table tr:last-child td:hover::after,
+.tiptap-content .ProseMirror table tr:last-child th:hover::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 8px;
+  cursor: row-resize;
+  z-index: 2;
+}
+
+.tiptap-content .ProseMirror table th {
+  font-weight: bold;
+  background-color: #f8f9fa;
+}
+
+.tiptap-content .ProseMirror table .selectedCell:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(200, 200, 255, 0.4);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 크기 조절 핸들 스타일 개선 */
+.tiptap-content .ProseMirror .tableWrapper .resize-cursor {
+  cursor: col-resize;
+  position: absolute;
+  width: 4px;
+  background-color: #4299e1;
+  height: 100%;
+  top: 0;
+  z-index: 3;
+}
+
+/* 표 크기 조절 관련 스타일 개선 */
+.tiptap-content .ProseMirror .resize-handle {
+  position: absolute;
+  right: -4px;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  cursor: col-resize;
+  background-color: transparent;
+  transition: background-color 0.2s;
+  z-index: 3;
+}
+
+.tiptap-content .ProseMirror .resize-handle:hover {
+  background-color: rgba(66, 153, 225, 0.5);
+}
+
+/* 테이블 전체 선택 시 외곽선 강조 */
+.tiptap-content .ProseMirror table.has-focus {
+  outline: 2px solid #4299e1;
+}
+
+/* 블록 강조 애니메이션 효과 */
+@keyframes blockHighlight {
+  0% {
+    background-color: rgba(59, 130, 246, 0.1);
+  }
+  50% {
+    background-color: rgba(59, 130, 246, 0.3);
+  }
+  100% {
+    background-color: rgba(59, 130, 246, 0);
+  }
+}
+
+.block-highlight {
+  animation: blockHighlight 1s ease-out;
+}
+
+/* 에디터 테두리 제거 */
+.ProseMirror {
+  outline: none;
+}
+
+/* 에디터 내부 블록 여백 설정 */
+.ProseMirror p, 
+.ProseMirror h1, 
+.ProseMirror h2, 
+.ProseMirror h3, 
+.ProseMirror ul, 
+.ProseMirror ol,
+.ProseMirror blockquote,
+.ProseMirror pre {
+  margin: 0.7em 0;
+  position: relative;
+  border-radius: 4px;
+}
+
+/* 각 블록에 약간의 패딩 추가 */
+.ProseMirror p, 
+.ProseMirror h1, 
+.ProseMirror h2, 
+.ProseMirror h3 {
+  padding: 0.25em 0;
+}
+
+/* 표 스타일 */
+.ProseMirror table {
+  border-collapse: collapse;
+  margin: 0;
+  overflow: hidden;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.ProseMirror td, 
+.ProseMirror th {
+  border: 1px solid #ced4da;
+  box-sizing: border-box;
+  min-width: 1em;
+  padding: 3px 5px;
+  position: relative;
+  vertical-align: top;
+}
+
+.ProseMirror th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* 표 선택자 스타일 */
+.ProseMirror .tableWrapper .resize-cursor {
+  cursor: col-resize;
+}
+
+/* 헤딩 스타일 */
+.ProseMirror h1 {
+  font-size: 1.75em;
+  font-weight: bold;
+}
+
+.ProseMirror h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.ProseMirror h3 {
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+/* 코드 블록 스타일 */
+.ProseMirror pre {
+  background: #0d0d0d;
+  color: #fff;
+  font-family: 'JetBrainsMono', monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.ProseMirror code {
+  background-color: rgba(97, 97, 97, 0.1);
+  color: #616161;
+  border-radius: 0.25em;
+  padding: 0.15em 0.25em;
+}
+
+/* 인용구 스타일 */
+.ProseMirror blockquote {
+  border-left: 3px solid #dadada;
+  padding-left: 1rem;
+  font-style: italic;
+  color: #5c5c5c;
+}
+
+/* 블록 호버 효과 */
+.ProseMirror p:hover, 
+.ProseMirror h1:hover, 
+.ProseMirror h2:hover, 
+.ProseMirror h3:hover, 
+.ProseMirror blockquote:hover,
+.ProseMirror pre:hover,
+.ProseMirror ul:hover, 
+.ProseMirror ol:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* 드래그 핸들 스타일 */
+.ProseMirror .drag-handle {
+  position: absolute;
+  left: -30px;
+  top: 5px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  z-index: 10;
+}
+
+.ProseMirror .drag-handle-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  cursor: grab;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.ProseMirror .drag-handle-inner:hover {
+  background-color: #e5e7eb;
+  color: #1f2937;
+  transform: scale(1.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ProseMirror .drag-handle-inner:active {
+  cursor: grabbing;
+  background-color: #d1d5db;
+  transform: scale(0.95);
+}
+
+/* 부모 요소 호버 시 드래그 핸들 표시 */
+.ProseMirror p:hover .drag-handle,
+.ProseMirror h1:hover .drag-handle,
+.ProseMirror h2:hover .drag-handle,
+.ProseMirror h3:hover .drag-handle,
+.ProseMirror ul:hover .drag-handle,
+.ProseMirror ol:hover .drag-handle,
+.ProseMirror blockquote:hover .drag-handle,
+.ProseMirror pre:hover .drag-handle {
+  opacity: 1;
+}
+
+/* 드래그 중인 요소 스타일 */
+.ProseMirror .ProseMirror-selectednode {
+  outline: 2px solid #3b82f6;
+  border-radius: 4px;
+  background-color: rgba(59, 130, 246, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 드래그 중인 요소 핸들 스타일 변경 */
+.ProseMirror .ProseMirror-selectednode .drag-handle {
+  opacity: 1;
+}
+
+.ProseMirror .ProseMirror-selectednode .drag-handle-inner {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* 드롭 커서 스타일 향상 */
+.ProseMirror-dropcursor {
+  margin-top: -2px;
+  margin-left: -2px;
+  pointer-events: none;
+  animation: dropCursorBlink 1s infinite;
+}
+
+@keyframes dropCursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 에디터 컨테이너 스타일 */
+.editor-content-wrapper {
+  position: relative;
+  padding-left: 32px; /* 드래그 핸들을 위한 공간 추가 */
+}
+
+/* 노션 스타일 드래그 핸들 개선 */
+.ProseMirror p::before,
+.ProseMirror h1::before,
+.ProseMirror h2::before,
+.ProseMirror h3::before,
+.ProseMirror ul::before,
+.ProseMirror ol::before,
+.ProseMirror blockquote::before,
+.ProseMirror pre::before {
+  content: "";
+  position: absolute;
+  left: -36px;
+  top: 8px;
+  width: 20px;
+  height: 16px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 10;
+  cursor: move;
+  
+  /* 노션 스타일 6개 점 패턴 */
+  background-image: 
+    radial-gradient(circle, #999 1.5px, transparent 1.5px),
+    radial-gradient(circle, #999 1.5px, transparent 1.5px),
+    radial-gradient(circle, #999 1.5px, transparent 1.5px),
+    radial-gradient(circle, #999 1.5px, transparent 1.5px),
+    radial-gradient(circle, #999 1.5px, transparent 1.5px),
+    radial-gradient(circle, #999 1.5px, transparent 1.5px);
+  background-position: 
+    0px 0px, 8px 0px, 16px 0px,
+    0px 8px, 8px 8px, 16px 8px;
+  background-repeat: no-repeat;
+  background-size: 3px 3px;
+}
+
+/* + 버튼 스타일 */
+.ProseMirror p::after,
+.ProseMirror h1::after,
+.ProseMirror h2::after,
+.ProseMirror h3::after,
+.ProseMirror ul::after,
+.ProseMirror ol::after,
+.ProseMirror blockquote::after,
+.ProseMirror pre::after {
+  content: "+";
+  position: absolute;
+  left: -36px;
+  top: -12px;
+  width: 20px;
+  height: 20px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 11;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  color: #999;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.ProseMirror p:hover::after,
+.ProseMirror h1:hover::after,
+.ProseMirror h2:hover::after,
+.ProseMirror h3:hover::after,
+.ProseMirror ul:hover::after,
+.ProseMirror ol:hover::after,
+.ProseMirror blockquote:hover::after,
+.ProseMirror pre:hover::after {
+  opacity: 1;
+}
+
+/* 호버 시 스타일 */
+.ProseMirror p:hover::before,
+.ProseMirror h1:hover::before,
+.ProseMirror h2:hover::before,
+.ProseMirror h3:hover::before,
+.ProseMirror ul:hover::before,
+.ProseMirror ol:hover::before,
+.ProseMirror blockquote:hover::before,
+.ProseMirror pre:hover::before {
+  opacity: 0.8;
+}
+
+.ProseMirror p:hover::after,
+.ProseMirror h1:hover::after,
+.ProseMirror h2:hover::after,
+.ProseMirror h3:hover::after,
+.ProseMirror ul:hover::after,
+.ProseMirror ol:hover::after,
+.ProseMirror blockquote:hover::after,
+.ProseMirror pre:hover::after {
+  opacity: 0;
+}
+
+/* 첫번째 블록 위에 + 버튼 표시 */
+.ProseMirror p:first-child:hover::after,
+.ProseMirror h1:first-child:hover::after,
+.ProseMirror h2:first-child:hover::after,
+.ProseMirror h3:first-child:hover::after,
+.ProseMirror ul:first-child:hover::after,
+.ProseMirror ol:first-child:hover::after,
+.ProseMirror blockquote:first-child:hover::after,
+.ProseMirror pre:first-child:hover::after {
+  opacity: 1;
+}
+
+/* 블록 사이에 + 버튼 표시 */
+.ProseMirror p + p::after,
+.ProseMirror p + h1::after,
+.ProseMirror p + h2::after,
+.ProseMirror p + h3::after,
+.ProseMirror p + ul::after,
+.ProseMirror p + ol::after,
+.ProseMirror p + blockquote::after,
+.ProseMirror p + pre::after,
+.ProseMirror h1 + p::after,
+.ProseMirror h1 + h1::after,
+.ProseMirror h1 + h2::after,
+.ProseMirror h1 + h3::after,
+.ProseMirror h1 + ul::after,
+.ProseMirror h1 + ol::after,
+.ProseMirror h1 + blockquote::after,
+.ProseMirror h1 + pre::after,
+.ProseMirror h2 + p::after,
+.ProseMirror h2 + h1::after,
+.ProseMirror h2 + h2::after,
+.ProseMirror h2 + h3::after,
+.ProseMirror h2 + ul::after,
+.ProseMirror h2 + ol::after,
+.ProseMirror h2 + blockquote::after,
+.ProseMirror h2 + pre::after,
+.ProseMirror h3 + p::after,
+.ProseMirror h3 + h1::after,
+.ProseMirror h3 + h2::after,
+.ProseMirror h3 + h3::after,
+.ProseMirror h3 + ul::after,
+.ProseMirror h3 + ol::after,
+.ProseMirror h3 + blockquote::after,
+.ProseMirror h3 + pre::after,
+.ProseMirror ul + p::after,
+.ProseMirror ul + h1::after,
+.ProseMirror ul + h2::after,
+.ProseMirror ul + h3::after,
+.ProseMirror ul + ul::after,
+.ProseMirror ul + ol::after,
+.ProseMirror ul + blockquote::after,
+.ProseMirror ul + pre::after,
+.ProseMirror ol + p::after,
+.ProseMirror ol + h1::after,
+.ProseMirror ol + h2::after,
+.ProseMirror ol + h3::after,
+.ProseMirror ol + ul::after,
+.ProseMirror ol + ol::after,
+.ProseMirror ol + blockquote::after,
+.ProseMirror ol + pre::after,
+.ProseMirror blockquote + p::after,
+.ProseMirror blockquote + h1::after,
+.ProseMirror blockquote + h2::after,
+.ProseMirror blockquote + h3::after,
+.ProseMirror blockquote + ul::after,
+.ProseMirror blockquote + ol::after,
+.ProseMirror blockquote + blockquote::after,
+.ProseMirror blockquote + pre::after,
+.ProseMirror pre + p::after,
+.ProseMirror pre + h1::after,
+.ProseMirror pre + h2::after,
+.ProseMirror pre + h3::after,
+.ProseMirror pre + ul::after,
+.ProseMirror pre + ol::after,
+.ProseMirror pre + blockquote::after,
+.ProseMirror pre + pre::after {
+  top: -10px;
+}
+
+/* 드래그 중인 요소 스타일 */
+.ProseMirror [draggable=true] {
+  user-select: none;
+}
+
+.ProseMirror .ProseMirror-selectednode {
+  outline: 2px solid #3b82f6;
+  border-radius: 4px;
+  background-color: rgba(59, 130, 246, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 노션 스타일 기본 설정 */
+.ProseMirror {
+  position: relative;
+}
+
+.ProseMirror p,
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror ul,
+.ProseMirror ol,
+.ProseMirror blockquote,
+.ProseMirror pre {
+  position: relative;
+}
+
+/* 블록 사이 + 버튼 hover 이벤트 추가 */
+.ProseMirror p:hover + p::after,
+.ProseMirror p:hover + h1::after,
+.ProseMirror p:hover + h2::after,
+.ProseMirror p:hover + h3::after,
+.ProseMirror p:hover + ul::after,
+.ProseMirror p:hover + ol::after,
+.ProseMirror p:hover + blockquote::after,
+.ProseMirror p:hover + pre::after,
+.ProseMirror h1:hover + p::after,
+.ProseMirror h1:hover + h1::after,
+.ProseMirror h1:hover + h2::after,
+.ProseMirror h1:hover + h3::after,
+.ProseMirror h1:hover + ul::after,
+.ProseMirror h1:hover + ol::after,
+.ProseMirror h1:hover + blockquote::after,
+.ProseMirror h1:hover + pre::after,
+.ProseMirror h2:hover + p::after,
+.ProseMirror h2:hover + h1::after,
+.ProseMirror h2:hover + h2::after,
+.ProseMirror h2:hover + h3::after,
+.ProseMirror h2:hover + ul::after,
+.ProseMirror h2:hover + ol::after,
+.ProseMirror h2:hover + blockquote::after,
+.ProseMirror h2:hover + pre::after,
+.ProseMirror h3:hover + p::after,
+.ProseMirror h3:hover + h1::after,
+.ProseMirror h3:hover + h2::after,
+.ProseMirror h3:hover + h3::after,
+.ProseMirror h3:hover + ul::after,
+.ProseMirror h3:hover + ol::after,
+.ProseMirror h3:hover + blockquote::after,
+.ProseMirror h3:hover + pre::after,
+.ProseMirror ul:hover + p::after,
+.ProseMirror ul:hover + h1::after,
+.ProseMirror ul:hover + h2::after,
+.ProseMirror ul:hover + h3::after,
+.ProseMirror ul:hover + ul::after,
+.ProseMirror ul:hover + ol::after,
+.ProseMirror ul:hover + blockquote::after,
+.ProseMirror ul:hover + pre::after,
+.ProseMirror ol:hover + p::after,
+.ProseMirror ol:hover + h1::after,
+.ProseMirror ol:hover + h2::after,
+.ProseMirror ol:hover + h3::after,
+.ProseMirror ol:hover + ul::after,
+.ProseMirror ol:hover + ol::after,
+.ProseMirror ol:hover + blockquote::after,
+.ProseMirror ol:hover + pre::after,
+.ProseMirror blockquote:hover + p::after,
+.ProseMirror blockquote:hover + h1::after,
+.ProseMirror blockquote:hover + h2::after,
+.ProseMirror blockquote:hover + h3::after,
+.ProseMirror blockquote:hover + ul::after,
+.ProseMirror blockquote:hover + ol::after,
+.ProseMirror blockquote:hover + blockquote::after,
+.ProseMirror blockquote:hover + pre::after,
+.ProseMirror pre:hover + p::after,
+.ProseMirror pre:hover + h1::after,
+.ProseMirror pre:hover + h2::after,
+.ProseMirror pre:hover + h3::after,
+.ProseMirror pre:hover + ul::after,
+.ProseMirror pre:hover + ol::after,
+.ProseMirror pre:hover + blockquote::after,
+.ProseMirror pre:hover + pre::after {
+  opacity: 1;
+} 
