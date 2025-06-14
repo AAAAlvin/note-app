@@ -36,29 +36,29 @@ const allNotes = [
 ];
 
 // 모든 태그 집합 추출
-const allTags = Array.from(
-  new Set(allNotes.flatMap(note => note.tags))
-);
+// const allTags = Array.from(
+//   new Set(allNotes.flatMap(note => note.tags))
+// );
 
 export default function MainDashboard() {
   const [view, setView] = useState<'all' | 'important'>('all');
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  // const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   // 필터링
   const filteredNotes = allNotes.filter(note => {
     if (view === 'important' && !note.important) return false;
-    if (selectedTags.length > 0 && !selectedTags.every(tag => note.tags.includes(tag))) return false;
+    // if (selectedTags.length > 0 && !selectedTags.every(tag => note.tags.includes(tag))) return false;
     return true;
   });
 
   // 태그 토글
-  const toggleTag = (tag: string) => {
-    setSelectedTags(prev =>
-      prev.includes(tag)
-        ? prev.filter(t => t !== tag)
-        : [...prev, tag]
-    );
-  };
+  // const toggleTag = (tag: string) => {
+  //   setSelectedTags(prev =>
+  //     prev.includes(tag)
+  //       ? prev.filter(t => t !== tag)
+  //       : [...prev, tag]
+  //   );
+  // };
 
   return (
     <main className="flex-1 p-8 overflow-y-auto">
@@ -69,7 +69,7 @@ export default function MainDashboard() {
           <button
             className={`px-4 py-2 rounded-full font-semibold transition ${
               view === 'all'
-                ? 'bg-blue-600 text-white shadow'
+                ? 'bg-[#2c3136] text-white shadow'
                 : 'bg-gray-200 text-gray-700 hover:bg-blue-100'
             }`}
             onClick={() => setView('all')}
@@ -79,7 +79,7 @@ export default function MainDashboard() {
           <button
             className={`px-4 py-2 rounded-full font-semibold transition ${
               view === 'important'
-                ? 'bg-blue-600 text-white shadow'
+                ? 'bg-[#2c3136] text-white shadow'
                 : 'bg-gray-200 text-gray-700 hover:bg-blue-100'
             }`}
             onClick={() => setView('important')}
@@ -88,7 +88,7 @@ export default function MainDashboard() {
           </button>
         </div>
         {/* 태그 필터 */}
-        <div className="flex gap-2 flex-wrap ml-6">
+        {/* <div className="flex gap-2 flex-wrap ml-6">
           {allTags.map(tag => (
             <button
               key={tag}
@@ -102,7 +102,7 @@ export default function MainDashboard() {
               {tag}
             </button>
           ))}
-        </div>
+        </div> */}
       </div>
       {/* 노트 리스트 */}
       <NoteSection title={view === 'all' ? '전체 노트' : '중요 노트'} notes={filteredNotes} />

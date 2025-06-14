@@ -11,8 +11,39 @@ interface Note {
 export default function NoteCard({ note }: { note: Note }) {
   return (
     <div className="bg-white rounded shadow p-4 flex items-center justify-between">
-      <div>
-        <div className="text-xs text-gray-400">{note.date} {note.time}</div>
+      <div className="flex flex-col items-center justify-center w-16 mr-4">
+        <div className="text-xs text-gray-400">
+          {(() => {
+            if (!note.date) return '';
+            const dateObj = new Date(note.date);
+            if (!isNaN(dateObj.getTime())) {
+              return dateObj.toLocaleDateString('ko-KR', { weekday: 'short' });
+            }
+            return note.date.split(' ')[0];
+          })()}
+        </div>
+        <div className="text-2xl font-bold text-gray-700">
+          {(() => {
+            if (!note.date) return '';
+            const dateObj = new Date(note.date);
+            if (!isNaN(dateObj.getTime())) {
+              return String(dateObj.getDate()).padStart(2, '0');
+            }
+            return note.date.split(' ')[1] || '';
+          })()}
+        </div>
+        <div className="text-xs text-gray-400">
+          {(() => {
+            if (!note.date) return '';
+            const dateObj = new Date(note.date);
+            if (!isNaN(dateObj.getTime())) {
+              return note.time;
+            }
+            return note.time;
+          })()}
+        </div>
+      </div>
+      <div className="flex-1">
         <div className="font-bold">{note.title}</div>
         <div className="text-sm text-gray-600">{note.desc}</div>
         <div className="flex gap-1 mt-1">
