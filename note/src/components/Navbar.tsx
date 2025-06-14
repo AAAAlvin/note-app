@@ -1,4 +1,4 @@
-import { FiFilter, FiList, FiChevronLeft, FiChevronRight, FiDownload, FiGrid, FiSettings, FiMoreVertical } from 'react-icons/fi';
+import { FiPlus, FiFilter, FiList, FiChevronLeft, FiChevronRight, FiDownload, FiGrid, FiSettings, FiMoreVertical } from 'react-icons/fi';
 
 export default function Navbar() {
   return (
@@ -13,6 +13,10 @@ export default function Navbar() {
       </div>
       
       <div className="flex items-center gap-2">
+        <button className="p-1.5 hover:bg-[#2c3136] rounded">
+          <FiPlus className="text-lg" />
+        </button>
+
         <button className="p-1.5 hover:bg-[#2c3136] rounded">
           <FiChevronLeft className="text-lg" />
         </button>

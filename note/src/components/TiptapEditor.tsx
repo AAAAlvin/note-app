@@ -16,7 +16,7 @@ import 'tippy.js/dist/tippy.css';
 import '../styles/editor.css';
 
 interface TiptapEditorProps {
-  content?: string;
+  initialContent?: string;
   onChange?: (html: string) => void;
 }
 
@@ -104,8 +104,8 @@ const commandOptions: CommandOption[] = [
   },
 ];
 
-const TiptapEditor = ({ content = '', onChange }: TiptapEditorProps) => {
-  const [editorContent, setEditorContent] = useState(content);
+const TiptapEditor = ({ initialContent = '', onChange }: TiptapEditorProps) => {
+  const [editorContent, setEditorContent] = useState(initialContent);
   const [showCommands, setShowCommands] = useState(false);
   const [slashPosition, setSlashPosition] = useState({ top: 0, left: 0 });
   const [filterText, setFilterText] = useState('');
@@ -293,10 +293,10 @@ const TiptapEditor = ({ content = '', onChange }: TiptapEditorProps) => {
 
   // 컴포넌트가 마운트될 때 초기 content 업데이트
   useEffect(() => {
-    if (editor && content) {
-      editor.commands.setContent(content);
+    if (editor && initialContent) {
+      editor.commands.setContent(initialContent);
     }
-  }, [editor, content]);
+  }, [editor, initialContent]);
   
   // 에디터 외부 클릭 시 명령어 메뉴 닫기
   useEffect(() => {
@@ -705,7 +705,7 @@ const TiptapEditor = ({ content = '', onChange }: TiptapEditorProps) => {
         </button>
 
         {/* 블록 탐색기 추가 */}
-        <div className="ml-auto">
+        <div className="ml-auto hidden">
           <BlockExplorer editor={editor} onBlockClick={scrollToBlock} />
         </div>
       </div>

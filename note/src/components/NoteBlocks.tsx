@@ -149,7 +149,7 @@ const NoteBlocks = () => {
             </div>
             
             <TiptapEditor 
-              content={block.content}
+              initialContent={block.content}
               onChange={(html) => updateBlockContent(block.id, html)}
             />
           </div>
