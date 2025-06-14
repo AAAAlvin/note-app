@@ -1,11 +1,11 @@
 'use client';
 
-import { Extension } from '@tiptap/core';
+import { Editor, Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { ReactRenderer } from '@tiptap/react';
-import tippy from 'tippy.js';
+import tippy, { Instance } from 'tippy.js';
 
-import { SlashCommandList } from './SlashCommandList';
+import SlashCommandList from './SlashCommandList';
 
 export interface SlashCommandOptions {
   char: string;
@@ -22,7 +22,7 @@ export const SlashCommand = Extension.create<SlashCommandOptions>({
 
   addProseMirrorPlugins() {
     let component: ReactRenderer | null = null;
-    let popup: any = null;
+    let popup: Instance | null = null;
 
     return [
       new Plugin({
@@ -55,7 +55,7 @@ export const SlashCommand = Extension.create<SlashCommandOptions>({
                   props: {
                     editor: this.editor,
                     query: '',
-                    onCommand: (command: any) => {
+                    onCommand: (command: { command: (arg0: { editor: Editor }) => void }) => {
                       command.command({ editor: this.editor });
                       if (popup) {
                         popup.hide();
