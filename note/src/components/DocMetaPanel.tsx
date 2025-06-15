@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import { FaFolder, FaTags, FaSmile, FaMapMarkerAlt, FaUser, FaPhotoVideo } from "react-icons/fa";
 

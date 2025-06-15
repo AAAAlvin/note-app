@@ -1,22 +1,18 @@
-'use client'
-
 import TiptapEditor from "@/components/TiptapEditor";
 import DocMetaPanel from "@/components/DocMetaPanel";
 
-type Props = {
+type PageProps = Promise<{
   params: {
     id: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
-}
+  }
+}>;
 
-export default function Docs({ params, searchParams }: Props) {
-  const { id } = params;
-  const { mode } = searchParams;
+const Docs = async ({ params }: {params: PageProps}) => {
+  const id = await params;
 
   return (
     <div className="flex flex-col h-screen p-4">
-      {mode == 'new' ? (
+      {id.params.id === 'new' ? (
         <TiptapEditor initialContent={''} />
       ) : (
         <TiptapEditor initialContent={`${id} 번 문서`} />
@@ -39,3 +35,5 @@ export default function Docs({ params, searchParams }: Props) {
     </div>
   );
 }
+
+export default Docs;

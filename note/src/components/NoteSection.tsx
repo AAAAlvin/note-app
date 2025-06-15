@@ -1,3 +1,4 @@
+'use client';
 import NoteCard from '../components/NoteCard';
 
 interface Note {
