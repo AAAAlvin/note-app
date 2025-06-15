@@ -1,18 +1,20 @@
+'use client'
+
 import TiptapEditor from "@/components/TiptapEditor";
 import DocMetaPanel from "@/components/DocMetaPanel";
 
-type PageProps = Promise<{
+type PageProps = {
   params: {
     id: string;
-  }
-}>;
+  };
+}
 
-const Docs = async ({ params }: {params: PageProps}) => {
-  const id = await params;
+const Docs = ({ params }: PageProps) => {
+  const { id } = params;
 
   return (
     <div className="flex flex-col h-screen p-4">
-      {id.params.id === 'new' ? (
+      {id === 'new' ? (
         <TiptapEditor initialContent={''} />
       ) : (
         <TiptapEditor initialContent={`${id} 번 문서`} />
