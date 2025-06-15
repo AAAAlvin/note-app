@@ -1,75 +1,96 @@
 'use client';
-import React from "react";
-import { FaFolder, FaTags, FaSmile, FaMapMarkerAlt, FaUser, FaPhotoVideo } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import { FaFolder, FaTags, FaMapMarkerAlt, FaUser } from "react-icons/fa";
 
 interface DocMetaPanelProps {
-  tags: string[];
-  selectedTags: string[];
-  onTagsChange: (tags: string[]) => void;
-  members: string[];
-  selectedMembers: string[];
-  onMembersChange: (members: string[]) => void;
-  folders?: string[];
-  selectedFolder?: string;
-  onFolderChange?: (folder: string) => void;
-  locations?: string[];
-  selectedLocation?: string;
-  onLocationChange?: (location: string) => void;
+  documentId: string;
 }
 
-const DocMetaPanel: React.FC<DocMetaPanelProps> = ({
-  tags,
-  selectedTags,
-  onTagsChange,
-  members,
-  selectedMembers,
-  onMembersChange,
-  folders = ["No folder"],
-  selectedFolder = "No folder",
-  onFolderChange = () => {},
-  locations = ["No location"],
-  selectedLocation = "No location",
-  onLocationChange = () => {},
-}) => {
-  // 태그 체크박스 변경 핸들러
+const DocMetaPanel = ({ documentId }: DocMetaPanelProps) => {
+  const [tags, setTags] = useState<string[]>(["tag1", "tag2", "tag3"]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [members, setMembers] = useState<string[]>(["member1", "member2", "member3"]);
+  const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
+  const [folders] = useState<string[]>(["No folder"]);
+  const [selectedFolder, setSelectedFolder] = useState<string>("No folder");
+  const [locations] = useState<string[]>(["No location"]);
+  const [selectedLocation, setSelectedLocation] = useState<string>("No location");
+
+  useEffect(() => {
+    // 여기서 문서 ID를 기반으로 태그와 멤버 데이터를 가져올 수 있습니다
+    console.log(`Loading metadata for document: ${documentId}`);
+    
+    // 실제 구현에서는 API 호출 등을 통해 데이터를 가져옵니다
+    const fetchMetadata = async () => {
+      try {
+        // const response = await fetch(`/api/docs/${documentId}/metadata`);
+        // const data = await response.json();
+        setTags(["tag1", "tag2", "tag3"]);
+        setMembers(["member1", "member2", "member3"]);
+      } catch (error) {
+        console.error('Failed to fetch metadata:', error);
+      }
+    };
+    
+    fetchMetadata();
+  }, [documentId]);
+
   const handleTagChange = (tag: string) => {
-    if (selectedTags.includes(tag)) {
-      onTagsChange(selectedTags.filter((t) => t !== tag));
-    } else {
-      onTagsChange([...selectedTags, tag]);
-    }
+    setSelectedTags(prev => {
+      if (prev.includes(tag)) {
+        return prev.filter(t => t !== tag);
+      } else {
+        return [...prev, tag];
+      }
+    });
   };
 
-  // 담당자 체크박스 변경 핸들러
   const handleMemberChange = (member: string) => {
-    if (selectedMembers.includes(member)) {
-      onMembersChange(selectedMembers.filter((m) => m !== member));
-    } else {
-      onMembersChange([...selectedMembers, member]);
-    }
+    setSelectedMembers(prev => {
+      if (prev.includes(member)) {
+        return prev.filter(m => m !== member);
+      } else {
+        return [...prev, member];
+      }
+    });
+  };
+
+  const handleFolderChange = (folder: string) => {
+    setSelectedFolder(folder);
+  };
+
+  const handleLocationChange = (location: string) => {
+    setSelectedLocation(location);
   };
 
   return (
-    <div className="bg-white rounded-lg p-6 max-w-2xl mx-auto border border-gray-100">
-      {/* Folder */}
-      <div className="flex items-center gap-3 py-2">
-        <span className="w-32 flex items-center gap-2 text-gray-600 font-medium">
-          <FaFolder className="text-gray-400" /> Folder:
+    <div className="p-4 bg-white rounded-lg shadow">
+      <h2 className="text-xl font-bold mb-4">문서 메타데이터</h2>
+      
+      {/* 폴더 선택 */}
+      <div className="mb-4 flex items-start">
+        <span className="inline-block w-8 h-8 mr-2 flex-shrink-0 text-gray-500">
+          <FaFolder className="w-5 h-5" />
         </span>
-        <select
-          className="flex-1 border border-gray-300 rounded px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
-          value={selectedFolder}
-          onChange={e => onFolderChange(e.target.value)}
-        >
-          {folders.map(f => (
-            <option key={f} value={f}>{f}</option>
-          ))}
-        </select>
+        <div className="flex-1">
+          <select
+            value={selectedFolder}
+            onChange={(e) => handleFolderChange(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded"
+          >
+            {folders.map(folder => (
+              <option key={folder} value={folder}>
+                {folder}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
-      {/* Tags */}
-      <div className="flex items-center gap-3 py-2">
-        <span className="w-32 flex items-center gap-2 text-gray-600 font-medium">
-          <FaTags className="text-gray-400" /> Tags:
+      
+      {/* 태그 선택 */}
+      <div className="mb-4 flex items-start">
+        <span className="inline-block w-8 h-8 mr-2 flex-shrink-0 text-gray-500">
+          <FaTags className="w-5 h-5" />
         </span>
         <div className="flex-1 flex flex-wrap gap-2">
           {tags.map(tag => (
@@ -80,40 +101,17 @@ const DocMetaPanel: React.FC<DocMetaPanelProps> = ({
                 onChange={() => handleTagChange(tag)}
                 className="accent-blue-500"
               />
-              <span className="text-sm text-gray-700">{tag}</span>
+              {tag}
             </label>
           ))}
           {tags.length === 0 && <span className="text-gray-400">Add tag...</span>}
         </div>
       </div>
-      {/* Mood */}
-      <div className="flex items-center gap-3 py-2">
-        <span className="w-32 flex items-center gap-2 text-gray-600 font-medium">
-          <FaSmile className="text-gray-400" /> Mood:
-        </span>
-        <button className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded bg-gray-50 hover:bg-blue-50 text-gray-700">
-          <span>+</span>
-        </button>
-      </div>
-      {/* Location */}
-      <div className="flex items-center gap-3 py-2">
-        <span className="w-32 flex items-center gap-2 text-gray-600 font-medium">
-          <FaMapMarkerAlt className="text-gray-400" /> Location:
-        </span>
-        <select
-          className="flex-1 border border-gray-300 rounded px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
-          value={selectedLocation}
-          onChange={e => onLocationChange(e.target.value)}
-        >
-          {locations.map(l => (
-            <option key={l} value={l}>{l}</option>
-          ))}
-        </select>
-      </div>
-      {/* 담당자 */}
-      <div className="flex items-center gap-3 py-2">
-        <span className="w-32 flex items-center gap-2 text-gray-600 font-medium">
-          <FaUser className="text-gray-400" /> 담당자:
+      
+      {/* 담당자 선택 */}
+      <div className="mb-4 flex items-start">
+        <span className="inline-block w-8 h-8 mr-2 flex-shrink-0 text-gray-500">
+          <FaUser className="w-5 h-5" />
         </span>
         <div className="flex-1 flex flex-wrap gap-2">
           {members.map(member => (
@@ -124,29 +122,31 @@ const DocMetaPanel: React.FC<DocMetaPanelProps> = ({
                 onChange={() => handleMemberChange(member)}
                 className="accent-green-500"
               />
-              <span className="text-sm text-gray-700">{member}</span>
+              {member}
             </label>
           ))}
+          {members.length === 0 && <span className="text-gray-400">Add member...</span>}
         </div>
       </div>
-      {/* Photos */}
-      <div className="flex items-center gap-3 py-2">
-        <span className="w-32 flex items-center gap-2 text-gray-600 font-medium">
-          <FaPhotoVideo className="text-gray-400" /> Photos:
+      
+      {/* 위치 선택 */}
+      <div className="mb-4 flex items-start">
+        <span className="inline-block w-8 h-8 mr-2 flex-shrink-0 text-gray-500">
+          <FaMapMarkerAlt className="w-5 h-5" />
         </span>
-        <div className="flex-1 flex gap-2">
-          <button className="px-3 py-2 border border-gray-300 rounded bg-gray-50 hover:bg-blue-50 text-gray-700">Select photos</button>
-          <button className="px-3 py-2 border border-gray-300 rounded bg-gray-50 hover:bg-blue-50 text-gray-700">New photo</button>
+        <div className="flex-1">
+          <select
+            value={selectedLocation}
+            onChange={(e) => handleLocationChange(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded"
+          >
+            {locations.map(location => (
+              <option key={location} value={location}>
+                {location}
+              </option>
+            ))}
+          </select>
         </div>
-      </div>
-      {/* 이미지 업로드 안내 */}
-      <div className="mt-4">
-        <input
-          type="text"
-          className="w-full border border-gray-300 rounded px-3 py-2 bg-gray-50 text-gray-400"
-          value="Drag and drop to upload and reorder images"
-          readOnly
-        />
       </div>
     </div>
   );

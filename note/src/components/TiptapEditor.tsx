@@ -18,6 +18,7 @@ import '../styles/editor.css';
 interface TiptapEditorProps {
   initialContent?: string;
   onChange?: (html: string) => void;
+  immediatelyRender?: boolean;
 }
 
 // 사용 가능한 폰트 목록
@@ -104,7 +105,7 @@ const commandOptions: CommandOption[] = [
   },
 ];
 
-const TiptapEditor = ({ initialContent = '', onChange }: TiptapEditorProps) => {
+const TiptapEditor = ({ initialContent = '', onChange, immediatelyRender = false }: TiptapEditorProps) => {
   const [editorContent, setEditorContent] = useState(initialContent);
   const [showCommands, setShowCommands] = useState(false);
   const [slashPosition, setSlashPosition] = useState({ top: 0, left: 0 });
@@ -148,6 +149,10 @@ const TiptapEditor = ({ initialContent = '', onChange }: TiptapEditorProps) => {
       GlobalDragHandle.configure({
         dragHandleWidth: 24,
       }),
+      // 초기 렌더링 최적화
+      {
+        immediatelyRender,
+      },
     ],
     content: editorContent,
     onUpdate: ({ editor }) => {
