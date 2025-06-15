@@ -3,18 +3,20 @@
 import TiptapEditor from "@/components/TiptapEditor";
 import DocMetaPanel from "@/components/DocMetaPanel";
 
-interface PageProps {
+type Props = {
   params: {
-    id?: string;
+    id: string;
   };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default function Docs({ params }: PageProps) {
+export default function Docs({ params, searchParams }: Props) {
   const { id } = params;
+  const { mode } = searchParams;
 
   return (
     <div className="flex flex-col h-screen p-4">
-      {id == 'new' ? (
+      {mode == 'new' ? (
         <TiptapEditor initialContent={''} />
       ) : (
         <TiptapEditor initialContent={`${id} 번 문서`} />
