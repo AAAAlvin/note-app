@@ -769,9 +769,15 @@ const TiptapEditor = ({ initialContent = '', onChange }: TiptapEditorProps) => {
       
       <div className="editor-container relative">
         <div ref={editorContentRef} className="editor-content-wrapper">
+          {/* Placeholder */}
+          {(!editorContent || editorContent === '<p></p>' || editor.isEmpty) && (
+            <div className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center select-none">
+              <span className="text-gray-400 text-xl">New Page</span>
+            </div>
+          )}
           <EditorContent 
             editor={editor} 
-            className="tiptap-content p-4 min-h-[200px] focus-within:ring-1 focus-within:ring-blue-200"
+            className="tiptap-content p-4 min-h-[600px] focus-within:ring-1 focus-within:ring-blue-200"
           />
         </div>
         
